@@ -18,3 +18,30 @@ def test_guest_can_add_product_to_basket(browser, index):
 
     page.item_should_be_added()
     page.item_price_should_be_equal()
+
+
+@pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0"])
+@pytest.mark.xfail
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser, link):
+    page = ProductPage(browser, link)
+    page.open()
+    page.add_to_basket_button()
+    page.solve_quiz_and_get_code()
+    page.should_not_be_success_message()
+
+
+@pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0"])
+def test_guest_cant_see_success_message(browser, link):
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_not_be_success_message()
+
+
+@pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0"])
+@pytest.mark.xfail
+def test_message_disappeared_after_adding_product_to_basket(browser, link):
+    page = ProductPage(browser, link)
+    page.open()
+    page.add_to_basket_button()
+    page.solve_quiz_and_get_code()
+    page.success_message_should_disappeared()
